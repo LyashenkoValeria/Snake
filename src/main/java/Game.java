@@ -17,6 +17,7 @@ public class Game  {
     JFrame window;
     static Canvas field;
     boolean life = true;
+    boolean inGame = false;
 
     public static void main(String[] args){
       new Game().start();
@@ -51,26 +52,31 @@ public class Game  {
                 if (key == KeyEvent.VK_RIGHT && snake.direction != left) {
                     snake.direction = right;
                 }
+                if (key == KeyEvent.VK_SPACE) {
+                    inGame = true;
+                }
             }
         });
-
         snake = new Snake(startX, startY, 3, right);
         apple = new Apple();
-
         while (life) {
-            snake.move();
-            if (apple.isEaten()){
-                apple.create();
+            field.repaint();
+            if (inGame) {
+                snake.move();
+                if (apple.isEaten()) {
+                    apple.create();
+                }
+
+                try {
+                    Thread.sleep(speed);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                life = snake.life;
             }
             field.repaint();
-            try {
-                Thread.sleep(speed);
-            } catch (InterruptedException e) {e.printStackTrace(); }
-            life = snake.life;
         }
-        field.repaint();
     }
-
 
     static boolean inSnake(int x, int y) {
         for (Point point : snake.snake) {
@@ -87,8 +93,14 @@ public class Game  {
         @Override
         public void paint(Graphics g) {
             super.paint(g);
-            snake.paint(g);
-            apple.paint(g);
+            if (!inGame) {
+                g.setColor(Color.white);
+                g.setFont(new Font("Calibri", Font.ROMAN_BASELINE, 20));
+                g.drawString("Нажмите Пробел, чтобы начать игру", 50, 180);
+            } else {
+                snake.paint(g);
+                apple.paint(g);
+            }
             if(!life){
                g.setColor(Color.white);
                g.setFont(new Font("Calibri", Font.ROMAN_BASELINE, 50));
