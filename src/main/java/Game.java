@@ -72,6 +72,7 @@ public class Game  {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
                 life = snake.life;
             }
             field.repaint();

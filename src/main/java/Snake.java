@@ -59,8 +59,8 @@ public class Snake {
     }
 
     void paint(Graphics g) {
-        for (Point point : snake) {
-            point.paint(g);
+        for (int i = 0; i < snake.size(); i++) {
+            snake.get(i).paint(g);
         }
     }
 }
