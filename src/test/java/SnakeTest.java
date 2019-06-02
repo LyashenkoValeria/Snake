@@ -29,7 +29,7 @@ public class SnakeTest {
             apple.eat();
             snakeTest.score++;
         }
-        assertEquals(snakeTest.score, 1);
+        assertEquals(1, snakeTest.score);
         assertEquals(bodyTest, snakeTest.snake);
     }
 
