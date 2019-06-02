@@ -14,7 +14,7 @@ public class AppleTest {
         apple2.setX(-1);
         apple2.setY(-1);
         apple1.eat();
-        assertEquals(apple1, apple2);
+        assertEquals(apple2, apple1);
     }
 
     @Test
