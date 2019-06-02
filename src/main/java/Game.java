@@ -8,6 +8,12 @@ public class Game  {
     private int startX = 10;
     private int startY = 10;
     private int speed = 100;
+    static int sizeX = 40;
+    static int sizeY = 38;
+    static boolean upDir = false;
+    static boolean downDir = false;
+    static boolean leftDir = false;
+    static boolean rightDir = false;
     private int up = 1;
     private int down = 2;
     private int left = 3;
@@ -27,7 +33,7 @@ public class Game  {
         window = new JFrame("Змейка");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setLocation(500, 200);
-        window.setSize(410, 410);
+        window.setSize(sizeX*10+10, sizeY*10+30);
         window.setResizable(false);
         window.setVisible(true);
 
@@ -39,18 +45,25 @@ public class Game  {
             public void keyPressed(KeyEvent e) {
                 super.keyPressed(e);
                 int key = e.getKeyCode();
-                if (key == KeyEvent.VK_UP && snake.direction != down) {
-                    snake.direction = up;
+                if(!leftDir && !rightDir) {
+                    if (key == KeyEvent.VK_UP && snake.direction != down) {
+                        upDir = true;
+                        snake.direction = up;
+                    }
+                    if (key == KeyEvent.VK_DOWN && snake.direction != up) {
+                        downDir = true;
+                        snake.direction = down;
+                    }
                 }
-                if (key == KeyEvent.VK_DOWN && snake.direction != up) {
-                    snake.direction = down;
-                }
-
-                if (key == KeyEvent.VK_LEFT && snake.direction != right) {
-                    snake.direction = left;
-                }
-                if (key == KeyEvent.VK_RIGHT && snake.direction != left) {
-                    snake.direction = right;
+                if (!upDir && !downDir) {
+                    if (key == KeyEvent.VK_LEFT && snake.direction != right) {
+                        leftDir = true;
+                        snake.direction = left;
+                    }
+                    if (key == KeyEvent.VK_RIGHT && snake.direction != left) {
+                        rightDir = true;
+                        snake.direction = right;
+                    }
                 }
                 if (key == KeyEvent.VK_SPACE) {
                     inGame = true;
@@ -88,6 +101,21 @@ public class Game  {
         return false;
     }
 
+    static void paintPoint(Graphics g, Point p) {
+        g.setColor(p.color);
+        g.fillRect(p.x*10, p.y*10 , 10, 10);
+    }
+
+    void paintApple(Graphics g, Apple apple){
+        g.setColor(apple.color);
+        g.fillOval(apple.x*10, apple.y*10 , 10, 10);
+    }
+
+    void paintSnake(Graphics g, Snake snake) {
+        for (int i = 0; i < snake.snake.size(); i++) {
+            Game.paintPoint(g, snake.snake.get(i));
+        }
+    }
 
     public class Canvas extends JPanel {
 
@@ -99,8 +127,8 @@ public class Game  {
                 g.setFont(new Font("Calibri", Font.ROMAN_BASELINE, 20));
                 g.drawString("Нажмите Пробел, чтобы начать игру", 50, 180);
             } else {
-                snake.paint(g);
-                apple.paint(g);
+                paintSnake(g, snake);
+                paintApple(g, apple);
             }
             if(!life){
                g.setColor(Color.white);

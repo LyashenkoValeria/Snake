@@ -26,8 +26,17 @@ public class Point {
         this.y = y;
     }
 
-    void paint(Graphics g) {
-        g.setColor(color);
-        g.fillRect(x*10, y*10 , 10, 10);
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (obj == this)
+            return true;
+        if (obj.getClass() == this.getClass()) {
+            Point point = (Point) obj;
+            if (point.x == this.x && point.y == this.y)
+                return true;
+        }
+        return false;
     }
 }

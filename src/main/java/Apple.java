@@ -20,15 +20,10 @@ public class Apple extends Point{
     public void create(){
         int x, y;
         do {
-            x = new Random().nextInt(40);
-            y = new Random().nextInt(38);
+            x = new Random().nextInt(Game.sizeX);
+            y = new Random().nextInt(Game.sizeY);
         } while (Game.inSnake(x,y));
         this.setX(x);
         this.setY(y);
-    }
-
-    void paint(Graphics g){
-        g.setColor(color);
-        g.fillOval(x*10, y*10 , 10, 10);
     }
 }
